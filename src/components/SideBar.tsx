@@ -10,9 +10,12 @@ interface GenreResponseProps {
   name: 'action' | 'comedy' | 'documentary' | 'drama' | 'horror' | 'family';
   title: string;
 }
-export function SideBar() {
+interface SideBarProps{
+  setSelectedGenreId:Function;
+  selectedGenreId: number;
+}
+export function SideBar({setSelectedGenreId,selectedGenreId}:SideBarProps) {
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
-  const [selectedGenreId, setSelectedGenreId] = useState(1);
 
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {
