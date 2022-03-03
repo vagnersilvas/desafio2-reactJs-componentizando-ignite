@@ -10,7 +10,7 @@ interface MovieProps {
   Title: string;
   Poster: string;
   Ratings: Array<{
-    Sourced: string;
+    Source: string;
     Value: string;
   }>;
   Runtime: string;
