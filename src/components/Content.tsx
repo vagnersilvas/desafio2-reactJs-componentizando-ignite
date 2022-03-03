@@ -4,41 +4,42 @@ import { Header } from "./Header";
 import { MovieCard } from "./MovieCard";
 
 import '../styles/content.scss';
+
+interface MovieProps {
+  imdbID: string;
+  Title: string;
+  Poster: string;
+  Ratings: Array<{
+    Sourced: string;
+    Value: string;
+  }>;
+  Runtime: string;
+}
 interface GenreResponseProps {
   id: number;
   name: 'action' | 'comedy' | 'documentary' | 'drama' | 'horror' | 'family';
   title: string;
 }
-interface MovieProps {
-
-  imdbID: string;
-  Title: string;
-  Poster: string;
-  Ratings: Array<{
-    Value: string;
-  }>;
-  Runtime: string;
+interface ContentProps {
+  selectedGenreId: number;
+  selectedGenre:GenreResponseProps;
 }
 
-export function Content() {
+export function Content({selectedGenreId,selectedGenre}:ContentProps) {
   const [movies, setMovies] = useState<MovieProps[]>([]);
-  const [selectedGenreId, setSelectedGenreId] = useState(1);
-  const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
 
   useEffect(() => {
     api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
       setMovies(response.data);
     });
 
-    api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
-      setSelectedGenre(response.data);
-    })
   }, [selectedGenreId]);
+  
 
   return (
     <div className="container">
 
-      <Header {...selectedGenre}/>
+      <Header {...selectedGenre} />
       <main>
         <div className="movies-list">
 
